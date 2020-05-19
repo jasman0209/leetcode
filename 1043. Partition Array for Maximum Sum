@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& A, int k) {
+        int dp[A.size()+1];
+        dp[0]=A[0];
+        for(int i=0;i<A.size()+1;i++)
+        {
+            int prevans=0;
+            for(int j=1;j<=k;j++)
+            {
+                int ans=0;
+                if(i-j>=0&&A[i-j])
+                {
+                    
+                    for(int l=1;l<=j;l++)
+                        ans=max(ans,A[i-l]);
+                    ans=dp[i-j]+ans*j;
+                }
+                prevans=max(prevans,ans);
+            }
+            dp[i]=prevans;
+        }
+       
+        return dp[A.size()];        
+    }
+    
+};
