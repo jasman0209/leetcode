@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void prefixSum(vector<vector<int>> &mat, int rows, int cols)
+    {
+        for(int i=1; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                mat[i][j] += mat[i-1][j];
+            }
+        }
+        for(int i=1; i<cols; i++)
+        {
+            for(int j=0; j<rows; j++)
+            {
+                mat[j][i] += mat[j][i-1];
+            }
+        }
+    }
+    void blockSum(vector<vector<int>> &mat, vector <vector<int>> &res, int K)
+    {
+        int row = mat.size(), col = mat[0].size();
+        for(int rows=0; rows<row; rows++)
+        {
+            for(int cols=0; cols<col; cols++)
+            {
+                int r = mat.size(), c = mat[0].size();
+                int r1 = max(0, rows-K), c1 = max(0, cols-K);
+                int r2 = min(r-1 , rows+K), c2 = min(c-1, cols+K);
+                int ans = mat[r2][c2];
+                if(r1-1 >= 0 && c1-1 >= 0)
+                    ans += mat[r1-1][c1-1];
+                if(r1-1 >= 0)
+                    ans -= mat[r1-1][c2];
+                if(c1-1 >= 0)
+                    ans -= mat[r2][c1-1];
+                res[rows][cols] = ans;
+            }
+        }
+    }
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int K) {
+        int rows = mat.size(), cols = mat[0].size();
+        vector <vector<int>> res(rows, vector<int>(cols));
+        prefixSum(mat, rows, cols);
+        blockSum(mat, res, K);
+        return res;
+    }
+};
