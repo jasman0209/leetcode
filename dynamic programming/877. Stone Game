@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        int n=piles.size();
+        if(n<3) return true;
+        int start=0,end=n-1;
+        int i=0,j=0;
+        int suma=0;int sumb=0;
+        while(start<=end){
+            int x=max(piles[start],piles[end]);
+            suma+=x;
+            
+            if(piles[start]==x)
+                start++;
+            else
+                end--;
+            if(start<=end)
+            { 
+                int y=min(piles[start],piles[end]);
+                sumb+=y;
+                
+                if(piles[start]==y)
+                    start++;
+                else
+                    end--;
+            }
+            else
+                break;
+        }
+        
+        return suma>sumb;
+    }
+};
