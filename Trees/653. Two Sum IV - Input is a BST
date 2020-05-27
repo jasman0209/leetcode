@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<int,int> m;
+    void traversal(TreeNode *temp,int k)
+    {
+        if(temp==NULL)
+            return;
+        m[temp->val]=k-temp->val;
+        traversal(temp->left,k);
+        traversal(temp->right,k);
+        return;
+    }
+    bool find(TreeNode* root, int m)
+    {
+        
+        if(root->val==m)
+            return true;
+        else if(root->val>m&&root->left)
+           return find(root->left,m);
+        else if(root->val<m&&root->right) return find(root->right,m);
+        return false;
+    }
+    bool findTarget(TreeNode* root, int k) {
+        if(root==NULL||root->left==NULL&&root->right==NULL)
+            return false;
+        
+        traversal(root,k);
+        unordered_map<int,int>:: iterator it;
+        for(it=m.begin();it!=m.end();it++)
+        {
+            if((it->second)!=0&&find(root,it->second)&&it->first!=it->second){
+                return true;
+                cout<<"aaaa"<<it->second<<endl;
+            }
+        }
+        return false;
+    }
+};
