@@ -1,5 +1,6 @@
 class Solution {
 public:
+
     vector<string> generateParenthesis(int n) {
         vector<string> res;
         addingpar(res, "", n, 0);
