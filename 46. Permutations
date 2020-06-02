@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<vector<int>> helper(vector<vector<int>> &v,vector<int> &nums,int l,int r)
+    {
+        if(l==r-1) 
+        {
+            v.push_back(nums);
+            return v;
+        }
+        for(int i=l;i<r;i++)
+        {
+            swap(nums[l],nums[i]);
+            helper(v,nums,l+1,r);
+            swap(nums[l],nums[i]);
+        }
+        return v;
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> v;
+        return (helper(v,nums,0,nums.size()));
+    }
+};
