@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& arr) {
+        int n=arr.size();
+        if(n==0) return {};
+        int start=0;
+        for(int i=1;i<n;i++)
+        {
+            if(arr[start]!=arr[i]){
+                swap(arr[start+1],arr[i]);
+                start++;
+            }
+        }
+       
+        return start+1;
+    }
+};
