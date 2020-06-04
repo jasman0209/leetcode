@@ -1,0 +1,20 @@
+Starting from the head node, keep traversing the linked list .
+
+while traversing keep changing value of the node to INT_MIN or INT_MAX denoting that it has been traversed before. While traversing if you encounter INT_MIN then stop and return true denoting cycle exists.
+if while traversing you get a null next to a node then stop traversing and return false denoting cycle doesnot exist.
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL) return false;
+        ListNode *temp=head;
+        if(head->next==NULL) return false;
+        while(temp->next!=NULL&&temp->val!=INT_MIN)
+        {
+            temp->val=INT_MIN;
+            temp=temp->next;
+        }
+        if(temp->val==INT_MIN) return true;
+        if(temp->next==NULL) return false;
+        
+        return true;
+    }
+};
