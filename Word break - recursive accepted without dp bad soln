@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& w) {
+        unordered_map<string,int> m;
+        
+        int p=s.length();
+        if(p==0) return true;
+        for(int i=1;i<=p;i++)
+        {
+            //cout<<s.substr(0,i)<<" "<<s.substr(i,p-i)<<endl;
+            if(find(w.begin(),w.end(),s.substr(0,i))==w.end())
+                continue;
+            else
+            {
+                //cout<<p<<endl;
+                if(p-i==0) return true;
+                if(wordBreak(s.substr(i,p-i),w))
+                    return true;
+            }
+        }
+        return false;
+    }
+};
