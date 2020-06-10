@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int n=nums.size();
+        if(n<3) return false;
+        int mi=INT_MAX,ma=INT_MIN;
+        for(int i=0;i<n-1;i++)
+        {
+            if(nums[i]<mi)
+                mi=nums[i];
+            if(i<n-i-1&&nums[n-i-1]>ma)
+                ma=nums[n-i-1];
+            if(mi<nums[i] && (nums[i] < nums[i+1] || nums[i] < ma)){
+                return true;
+            }
+        }
+        return false;
+    }
+};
