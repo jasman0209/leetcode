@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int mindiff=0,index=0;int initialgas=0;
+        for(int i=1;i<gas.size();i++)
+        {
+           initialgas+=gas[i-1]-cost[i-1];//cout<<initialgas<<" ";
+            if(initialgas<mindiff)
+            {
+                mindiff=initialgas;
+                index=i;
+            } 
+            
+        }
+        
+        initialgas += gas[gas.size()-1] - cost[gas.size()-1];
+       
+        if(initialgas>=0) 
+            return index;
+        return -1;
+    }
+};
