@@ -1,0 +1,65 @@
+intuition
+maintain a array, array[i] = sum from 0-th to i-th elements. it's like :
+image
+
+but if we maintain the array[i] = sum%k, like :
+image
+
+for [23, 2, 4, 6, 7] , k = 6
+sum array = [23,25,29,35,42]
+mod array = [5,1,5,5,0]
+true  : if for any mod_array[i], we can find a mod_array[j] == mod_array[i] , which 0<= j <= i-2
+false : if we cannot.
+O(N) method by hash table.
+
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        if(nums.size() == 1) return false;
+        else if(k == 0){
+            for(int i = 0 ; i < nums.size()-1 ; i++)
+                if(nums[i] == 0 && nums[i+1] == 0)
+                    return true;
+			return false;
+        }
+        else if(k == 1) return true;
+        vector<int> sum_map(nums.size()+1,0);
+        unordered_map<int,int> history; // key:sum value:first position
+        for(int i = 0 ; i < nums.size() ;i++)
+            sum_map[i+1] = (sum_map[i]+nums[i])%k;
+        history[sum_map[0]] = 1;
+        history[sum_map[1]] = (sum_map[1]!=sum_map[0])+1;
+		/* using a hash table here to track if we have the target at least 2 consecutive elements */
+        for(int i = 2 ; i < sum_map.size() ;i++){ 
+            if(history[sum_map[i]] == 0)
+                history[sum_map[i]] = i+1;
+            else if(i-history[sum_map[i]] > 0)
+                return true;
+        }
+        return false;
+    }
+};
+O(N^2) method, thanks @hqztrue for "searching a vector take O(N)"
+
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        if(nums.size() == 1) return false;
+        else if(k == 0){
+            for(int i = 0 ; i < nums.size()-1 ; i++)
+                if(nums[i] == 0 && nums[i+1] == 0)
+                    return true;
+            return false;
+        }
+        else if(k == 1) return true;
+        vector<int> sum_map(nums.size()+1,0);
+        for(int i = 0 ; i < nums.size() ;i++)
+            sum_map[i+1] = (sum_map[i]+nums[i])%k;
+		/* searching the index which is prior to current index, to see if any element can meet the requirement */
+        for(int i = 2 ; i < sum_map.size() ;i++){
+            if(find(sum_map.begin(),sum_map.begin()+i-1,sum_map[i]) != sum_map.begin()+i-1)
+                return true;
+        }
+        return false;
+    }
+};
