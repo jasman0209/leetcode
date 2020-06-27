@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        string start=paths[0][0];
+        string end=paths[0][1];
+        int n=paths.size();
+        if(n==1) return end;
+        unordered_map<string,int> m;
+        for(int i=1;i<paths.size();i++)
+        {
+            m[paths[i][0]]=i;
+            
+        }
+        while(m[end]!=0)
+        {
+            end=paths[m[end]][1];
+        }
+        return end;
+    }
+};
